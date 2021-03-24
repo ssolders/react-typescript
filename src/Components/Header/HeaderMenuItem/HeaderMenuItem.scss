@@ -1,0 +1,28 @@
+:root {
+  --header-menu-item-plus-size: 20px;
+  --header-menu-font-size: 14px;
+}
+
+.header-menu-item {
+  display: flex;
+  cursor: pointer;
+  font-size: var(--header-menu-font-size);
+  margin-right: 20px;
+  position: relative;
+
+  /* Mark a menu item as active */
+  &.active {
+    ::after {
+      content: '';
+      position: absolute;
+      width: calc(100% + var(--header-menu-item-plus-size));
+      left: calc(var(--header-menu-item-plus-size) / -2);
+      bottom: 0px;
+      border-bottom: 5px solid #eaa392;
+    }
+  }
+
+  span {
+    align-self: center;
+  }
+}

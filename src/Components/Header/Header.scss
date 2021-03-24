@@ -1,0 +1,51 @@
+:root {
+  --logo-height: 20px;
+  --header-items-margin: 14px;
+}
+
+.app-header {
+  background-color: #282c34;
+  position: fixed;
+  height: var(--header-height);
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  font-size: calc(10px + 2vmin);
+  color: white;
+
+  > * {
+    margin: 0 var(--header-items-margin);
+  }
+
+  .logo-layout-helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+
+    img {
+      cursor: pointer;
+      height: var(--logo-height);
+      position: relative;
+      top: calc(50% - calc(var(--logo-height) / 2) - 5px);
+    }
+  }
+  
+
+  .header-menu {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .merchant-selector-menu {
+    min-width: 200px;
+    border: 1px solid red;
+  }
+  
+  .user-menu {
+    min-width: 150px;
+    border: 1px solid red;
+  }
+}

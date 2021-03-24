@@ -1,0 +1,41 @@
+@font-face {
+  font-family: Gilroy;
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  src: local('Gilroy'), url('assets/fonts/Gilroy-Webfonts/GilroyRegular.woff') format('woff'), url('assets/fonts/Gilroy-Webfonts/GilroyRegular.woff2') format('woff2');
+  unicode-range: U+000-5FF; /* Latin glyphs */
+}
+
+@font-face {
+  font-family: Gilroy;
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+  src: local('Gilroy'), url('assets/fonts/Gilroy-Webfonts/GilroyBold.woff2') format('woff2'), url('assets/fonts/Gilroy-Webfonts/GilroyBold.woff') format('woff');
+  unicode-range: U+000-5FF; /* Latin glyphs */
+}
+
+@font-face {
+  font-family: Gilroy;
+  font-display: swap;
+  font-style: normal;
+  font-weight: 700;
+  src: local('Gilroy'), url('assets/fonts/Gilroy-Webfonts/GilroyExtraBold.woff2') format('woff2'), url('assets/fonts/Gilroy-Webfonts/GilroyExtraBold.woff') format('woff');
+  unicode-range: U+000-5FF; /* Latin glyphs */
+}
+
+body {
+  margin: 0;
+  // font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  //   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  //   sans-serif;
+  font-family: Gilroy, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
