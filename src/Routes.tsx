@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, Suspense, lazy } from 'react'
 import {
   Switch,
   Route,
@@ -8,6 +8,7 @@ const Routes: FC = () => {
   const constructLegacyUrl = (view: string): string => {
     const backofficeBaseUrl= 'http://0.0.0.0:11337/'
     const backofficeUrls = {
+      ['/']: '',
       transactions: '#transaction/search/',
       approve: '#approve/search/',
       investigate: '#T3-decisiontable/read/'
@@ -15,22 +16,35 @@ const Routes: FC = () => {
   
     return `${backofficeBaseUrl}${backofficeUrls[view]}`
   }
+
+  /* Legacy views that we still want to display from the old backoffice via iframe */
+  const views = [
+    { id: '/' },
+    { id: 'transactions' },
+    { id: 'approve' },
+    { id: 'investigate' }
+  ]
+
+  const Login = (
+    lazy(() => (
+      import('./Views/Login/Login')
+    ))
+  )
   
   return (
-    <Switch>
-      <Route exact path="/">
-        <h1>Home</h1>
-      </Route>
-      <Route path="/transactions">
-        <iframe height='100%' width='100%' title='transactions' src={constructLegacyUrl('transactions')} />
-      </Route>
-      <Route path="/approve">
-        <iframe height='100%' width='100%' title='approve' src={constructLegacyUrl('approve')} />
-      </Route>
-      <Route path="/investigate">
-        <iframe height='100%' width='100%' title='investigate' src={constructLegacyUrl('investigate')} />
-      </Route>
-    </Switch>
+    <Suspense fallback={<h1>Loading...</h1>}>
+      <Switch>
+        <Route exact path="/login">
+          <Login />
+        </Route>
+        { views.map(view => (
+          <Route key={view.id} path={`/${view.id}`}>
+            <iframe id='piq-iframe' height='100%' width='100%' title={view.id} src={constructLegacyUrl(view.id)} />
+          </Route>  
+        )) }
+
+      </Switch>
+    </Suspense>
   )
 };
 

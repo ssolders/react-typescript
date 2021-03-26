@@ -1,13 +1,29 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useHistory } from "react-router-dom"
+
+import ApplicationLogo from './ApplicationLogo/ApplicationLogo'
 import HeaderMenu from './HeaderMenu/HeaderMenu'
-import PaymentIQLogo from './../../assets/piq-logo.png'
-import { IMenuItem } from './../../Types/Header'
+import MerchantDropdown, { IMerchantDropdownItem, IMerchantDropdownGroup } from './MerchantDropdown/MerchantDropdown'
+import { IMenuItem } from './HeaderMenuItem/HeaderMenuItem'
+import UserMenu from './UserMenu/UserMenu'
+import { formatMerchantDataForDropdown } from './../../utils/helpers'
+import MerchantData from './../../_MOCKED_DATA_/merchants.json'
+
 import './Header.scss'
 
 const Header: FC<any> = () => {
   let history = useHistory()
 
+  const [activePath, setActivePath] = useState(
+    window.location.pathname.replace('/', '') // initial loaded path
+  );
+
+  const routeChangeHandler = (route) => {
+    setActivePath(route)
+    return history.push(route)
+  }
+
+  /* Fetch from meta data? */
   const menuItems: Array<IMenuItem> = [
     { id: 'transactions', name: 'Transactions' },
     { id: 'approve', name: 'Approve' },
@@ -20,20 +36,16 @@ const Header: FC<any> = () => {
     { id: 'admin', name: 'Admin' }
   ]
 
-  const handleRouteChange = (route: string) => {
-    return history.push(route)
-  }
+  const merchants: Array<IMerchantDropdownItem| IMerchantDropdownGroup> = formatMerchantDataForDropdown(MerchantData.allMerchants)
 
   return (
     <header className='app-header'>
-      <div className='logo-layout-helper'>
-        <img alt='piq-header' src={PaymentIQLogo} onClick={handleRouteChange('/')} />
-      </div>
+      <ApplicationLogo routeChangeHandler={routeChangeHandler} />
 
-      <HeaderMenu menuItems={menuItems} />
+      <HeaderMenu menuItems={menuItems} activePath={activePath} routeChangeHandler={routeChangeHandler} />
       
-      <div className='merchant-selector-menu' />
-      <div className='user-menu' />
+      <MerchantDropdown merchants={merchants} />
+      <UserMenu />
     </header>
   )
 };

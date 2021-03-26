@@ -1,7 +1,12 @@
 import { FC } from 'react'
 import { useHistory } from "react-router-dom"
 import './HeaderMenuItem.scss'
-import { IMenuItem } from '../../../Types/Header'
+
+export interface IMenuItem {
+  id: string
+  name: string
+  subMenuItems?: Array<IMenuItem>
+}
 
 interface IProps {
   id: string

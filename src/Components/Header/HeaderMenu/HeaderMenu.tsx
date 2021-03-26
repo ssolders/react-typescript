@@ -1,26 +1,19 @@
-import { FC, useState } from 'react'
-import HeaderMenuItem from '../HeaderMenuItem/HeaderMenuItem'
-import { IMenuItem } from '../../../Types/Header'
+import { FC } from 'react'
+import HeaderMenuItem, { IMenuItem } from '../HeaderMenuItem/HeaderMenuItem'
 import './HeaderMenu.scss'
 
 interface IProps {
   menuItems: Array<IMenuItem>
+  activePath: string
+  routeChangeHandler: (route: string) => {}
 }
 
 const HeaderMenu: FC<any> = (props: IProps) => {
-  const [activePath, setActivePath] = useState(
-    window.location.pathname.replace('/', '') // initial loaded path
-  );
-
-  const menuItemClickHandler = (id) => {
-    setActivePath(id)
-  }
-
   return (
     <div className="header-menu">
       { props.menuItems.map((menuItem, i) => {
         const { id, name, subMenuItems } = menuItem
-        return <HeaderMenuItem key={i} id={id} name={name} subMenuItems={subMenuItems} active={activePath === id} clickHandler={menuItemClickHandler} />
+        return <HeaderMenuItem key={i} id={id} name={name} subMenuItems={subMenuItems} active={props.activePath === id} clickHandler={props.routeChangeHandler} />
       })}
     </div>
   )

@@ -15,7 +15,8 @@
   color: white;
 
   > * {
-    margin: 0 var(--header-items-margin);
+    margin-left: var(--header-items-margin);
+    margin-right: var(--header-items-margin);
   }
 
   .logo-layout-helper {

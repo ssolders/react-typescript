@@ -8,6 +8,10 @@ import './App.scss';
 
 
 class App extends React.Component {
+  componentDidMount () {
+    // window.location.href = 'https://test-backoffice.paymentiq.io/paymentiq/oauth2/authorization/piq'
+  }
+
   render() {
     return (
       <Router history={'hashHistory'}>
