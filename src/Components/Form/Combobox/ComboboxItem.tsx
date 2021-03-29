@@ -12,7 +12,16 @@ const ComboboxItem: FC<any> = (props: IComboboxProps) => {
   const { label, value, className } = option
   const activeClasses = selected ? 'bg-green-400' : ''
   return (
-    <a id={selected ? 'active-menu-item' : value} onClick={() => onSelect(option)} href='#' className={`${className} ${activeClasses} flex inline-block items-start px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900`} role='menuitem'>
+    <a
+      id={selected ? 'active-menu-item' : value}
+      onClick={() => onSelect(option)}
+      href='#'
+      className={`
+        ${className}
+        ${activeClasses}
+        text-left flex inline-block items-start px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900`
+      }
+      role='menuitem'>
       {label}
       
       { selected &&

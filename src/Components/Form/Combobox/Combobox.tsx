@@ -10,6 +10,7 @@ export interface IComboboxItem {
 interface IComboboxProps {
   outerClasses: string | null
   outerDropdownClasses: string | null
+  placeholder?: string
   search: boolean
   scrollToSelected: boolean
   options: Array<IComboboxItem>
@@ -35,7 +36,7 @@ function useOutsideAlerter(ref, callback) {
     }
     // Bind the event listener
     document.addEventListener("mousedown", handleClickOutside);
-    window.addEventListener('blur', () => handleClickOutside(false))
+    // window.addEventListener('blur', () => handleClickOutside(false))
     return () => {
       // Unbind the event listener on clean up
       document.removeEventListener("mousedown", handleClickOutside);
@@ -72,23 +73,37 @@ const Combobox: FC<any> = (props: IComboboxProps) => {
     }
   }
 
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (!comboboxOpen) return;
+
+      if (event.key === 'Escape') {
+        toggleShowCombobox(!comboboxOpen)
+      }
+    };
+
+    document.addEventListener('keyup', handleEscape);
+    return () => document.removeEventListener('keyup', handleEscape);
+  }, [comboboxOpen]);
+
   const ArrowDown = () => (
     <svg className='absolute right-3 -mr-1 ml-2 h-5 w-5' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor' aria-hidden='true'>
       <path fillRule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clipRule='evenodd' />
     </svg>
   )
-  
-  // const MenuIcon = () => (
-  //   <svg className='-mr-1 ml-2 h-5 w-5' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-  //     <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
-  //   </svg>
-  // )
 
   const ComboboxDefault = () => {
     return (
-      <button onClick={() => toggleShowCombobox(!comboboxOpen)} type='button' className='relative items-start inline-flex w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500' id='options-menu' aria-expanded='true' aria-haspopup='true'>
-        {selected.label}
-        <ArrowDown />
+      <button
+        onClick={() => toggleShowCombobox(!comboboxOpen)}
+        type='button'
+        className='xl:w-full lg:w-28 lg:h-8 text-left relative overflow-hidden inline-flex rounded-md border border-gray-300 shadow-sm px-4 py-1.5 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500'
+        id='options-menu'
+        title={selected.label}
+        aria-expanded='true'
+        aria-haspopup='true'>
+          {selected.label}
+          <ArrowDown />
       </button>
     )
   }
@@ -100,10 +115,9 @@ const Combobox: FC<any> = (props: IComboboxProps) => {
           ref={filterMerchants => filterMerchants && filterMerchants.focus()}
           type='text'
           value={searchValue}
-          placeholder='Search'
+          placeholder={props.placeholder}
           onChange={onInput}
-          className='items-start inline-flex w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500' />
-        <ArrowDown />
+          className='xl:w-full lg:w-28 lg:h-8 text-left overflow-hidden inline-flex rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 active:outline-none focus:outline-none' />
       </div>
     )
   }

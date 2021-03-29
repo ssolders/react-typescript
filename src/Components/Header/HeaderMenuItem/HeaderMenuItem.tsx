@@ -1,16 +1,18 @@
 import { FC } from 'react'
 import { useHistory } from "react-router-dom"
+import Dropdown from './../../Form/Dropdown/Dropdown'
 import './HeaderMenuItem.scss'
 
 export interface IMenuItem {
   id: string
-  name: string
+  label: string
   subMenuItems?: Array<IMenuItem>
 }
 
 interface IProps {
   id: string
-  name: string
+  name: string,
+  itemClasses: string
   subMenuItems?: Array<IMenuItem>
   clickHandler: (id) => {}
   active: boolean
@@ -23,12 +25,30 @@ const HeaderMenuItem: FC<any> = (props: IProps) => {
     return __history.push(`/${id}`)
   }
 
-  const { id, name, active } = props
-  return (
-    <div className={`header-menu-item ${active ? 'active' : ''}`} onClick={() => handleRouteChange(id)}>
-      <span id={id}>{ name }</span>
-    </div>
-  )
+  const { id, name, itemClasses, active, subMenuItems } = props
+  const activeClasses = active ? 'bg-gray-900' : ''
+
+  if (subMenuItems) {
+    return (
+      <Dropdown
+        anchorType='menu'
+        anchorContent={name}
+        outerClasses='self-center'
+        outerDropdownClasses='overflow-y-auto'
+        onSelect={handleRouteChange}
+        options={subMenuItems}>
+      </Dropdown>
+    )
+  } else {
+    return (
+      <a
+        href='#'
+        onClick={() => handleRouteChange(id)}
+        className={`${activeClasses} ${itemClasses} text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium`}>
+          { name }
+      </a>
+    )   
+  }
 }
 
 export default HeaderMenuItem

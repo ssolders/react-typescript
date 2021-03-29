@@ -1,29 +1,48 @@
-import React, { FC, Suspense, lazy } from 'react'
+import React, { FC, Suspense, lazy, useEffect } from 'react'
 import {
   Switch,
   Route,
 } from "react-router-dom";
+import { useHistory } from "react-router-dom"
 
-const Routes: FC = () => {
-  const constructLegacyUrl = (view: string): string => {
+interface Iview {
+  id: string,
+  legacyRoute: string
+}
+
+const views = [
+  { id: '/', legacyRoute: '' },
+  { id: 'transactions', legacyRoute: '#transaction/search/' },
+  { id: 'approve', legacyRoute: '#approve/search/' },
+  { id: 'investigate', legacyRoute: '#T3-decisiontable/read/' },
+  { id: 'user-accounts', legacyRoute: '#user-psp-accounts/search/' },
+  { id: 'kyc/search', legacyRoute: '#kyc/search/' },
+  { id: 'kyc/block', legacyRoute: '#T16-decisiontable/read/' },
+  { id: 'kyc/routing', legacyRoute: '#T15-decisiontable/read/' },
+  { id: 'kyc/fallback', legacyRoute: '#T22-decisiontable/read/' },
+  { id: 'rules', legacyRoute: '#T3-decisiontable/read/' },
+  { id: 'investigate', legacyRoute: '#T3-decisiontable/read/' }
+]
+
+interface IProps {
+  authenticated: boolean
+  handleSignin: () => {}
+}
+
+const Routes: FC<any> = (props: IProps) => {
+  let history = useHistory()
+  /* Catch when not authenticated - and route to login  */
+  if (!props.authenticated) {
+    history.push('/login')
+  }
+
+  const constructLegacyUrl = (view: Iview): string => {
     const backofficeBaseUrl= 'http://0.0.0.0:11337/'
-    const backofficeUrls = {
-      ['/']: '',
-      transactions: '#transaction/search/',
-      approve: '#approve/search/',
-      investigate: '#T3-decisiontable/read/'
-    }
-  
-    return `${backofficeBaseUrl}${backofficeUrls[view]}`
+
+    return `${backofficeBaseUrl}${view.legacyRoute}`
   }
 
   /* Legacy views that we still want to display from the old backoffice via iframe */
-  const views = [
-    { id: '/' },
-    { id: 'transactions' },
-    { id: 'approve' },
-    { id: 'investigate' }
-  ]
 
   const Login = (
     lazy(() => (
@@ -35,11 +54,11 @@ const Routes: FC = () => {
     <Suspense fallback={<h1>Loading...</h1>}>
       <Switch>
         <Route exact path="/login">
-          <Login />
+          <Login handleSignin={props.handleSignin} />
         </Route>
         { views.map(view => (
           <Route key={view.id} path={`/${view.id}`}>
-            <iframe id='piq-iframe' height='100%' width='100%' title={view.id} src={constructLegacyUrl(view.id)} />
+            <iframe id='piq-iframe' height='100%' width='100%' title={view.id} src={constructLegacyUrl(view)} />
           </Route>  
         )) }
 
