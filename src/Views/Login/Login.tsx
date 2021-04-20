@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { signIn, ISigninPayload } from './../../Service/Login'
+import { signIn, ISigninPayload } from '../../Service/User'
 import ApplicationLogo from '../../Components/Misc/ApplicationLogo/ApplicationLogo'
 
 interface ILoginProps {

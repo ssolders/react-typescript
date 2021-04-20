@@ -1,5 +1,5 @@
 import { FC, useState, useRef, useEffect } from 'react'
-import ComboboxOption from './ComboboxItem'
+import ComboboxItem from './ComboboxItem'
 
 export interface IComboboxItem {
   value: string
@@ -36,7 +36,7 @@ function useOutsideAlerter(ref, callback) {
     }
     // Bind the event listener
     document.addEventListener("mousedown", handleClickOutside);
-    // window.addEventListener('blur', () => handleClickOutside(false))
+    window.addEventListener('blur', () => handleClickOutside(false))
     return () => {
       // Unbind the event listener on clean up
       document.removeEventListener("mousedown", handleClickOutside);
@@ -142,7 +142,7 @@ const Combobox: FC<any> = (props: IComboboxProps) => {
         <div ref={optionsWrapperRef} className={`${optionsContainerClasses} ${outerDropdownClasses}`} role='menu' aria-orientation='vertical' aria-labelledby='options-menu'>
           { options.map((option: IComboboxItem, i) => {
             const optionSelected = selected && selected.value === option.value
-            return <ComboboxOption key={i} selected={optionSelected} option={option} onSelect={handleOptionSelect} />
+            return <ComboboxItem key={i} selected={optionSelected} option={option} onSelect={handleOptionSelect} />
           })}
         </div>
       )}

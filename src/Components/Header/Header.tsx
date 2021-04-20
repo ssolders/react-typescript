@@ -40,8 +40,8 @@ const Header: FC<any> = (props: IProps) => {
     { id: 'kyc', label: 'KYC' },
     { id: 'store', label: 'Store' },
     { id: 'rules', label: 'Rules', subMenuItems: [
-      { id: 'configuration', label: 'Configuration' },
-      { id: 'templates', label: 'Templates' }
+      { id: 'rules/payment-methods', label: 'Payment Methods' },
+      { id: 'rules/routing', label: 'Routing' }
     ]},
     { id: 'admin', label: 'Admin', subMenuItems: [
       { id: 'configuration', label: 'Configuration' },

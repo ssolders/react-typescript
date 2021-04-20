@@ -1,4 +1,4 @@
-import React, { FC, Suspense, lazy, useEffect } from 'react'
+import { FC, Suspense, lazy } from 'react'
 import {
   Switch,
   Route,
@@ -20,11 +20,12 @@ const views = [
   { id: 'kyc/block', legacyRoute: '#T16-decisiontable/read/' },
   { id: 'kyc/routing', legacyRoute: '#T15-decisiontable/read/' },
   { id: 'kyc/fallback', legacyRoute: '#T22-decisiontable/read/' },
-  { id: 'rules', legacyRoute: '#T3-decisiontable/read/' },
+  // { id: 'rules', legacyRoute: '#T3-decisiontable/read/' },
   { id: 'investigate', legacyRoute: '#T3-decisiontable/read/' }
 ]
 
 interface IProps {
+  merchantId: string
   authenticated: boolean
   handleSignin: () => {}
 }
@@ -38,7 +39,6 @@ const Routes: FC<any> = (props: IProps) => {
 
   const constructLegacyUrl = (view: Iview): string => {
     const backofficeBaseUrl= 'http://0.0.0.0:11337/'
-
     return `${backofficeBaseUrl}${view.legacyRoute}`
   }
 
@@ -50,14 +50,26 @@ const Routes: FC<any> = (props: IProps) => {
     ))
   )
   
+  const PaymentMethodRules = (
+    lazy(() => (
+      import('./Views/Rules/PaymentMetodsRules/PaymentMetodsRules')
+    ))
+  )
+  
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
       <Switch>
+        
         <Route exact path="/login">
           <Login handleSignin={props.handleSignin} />
         </Route>
+        
+        <Route exact path="/rules/payment-methods">
+          <PaymentMethodRules merchantId={props.merchantId} />
+        </Route>
+
         { views.map(view => (
-          <Route key={view.id} path={`/${view.id}`}>
+          <Route key={view.id} exact path={`/${view.id}`}>
             <iframe id='piq-iframe' height='100%' width='100%' title={view.id} src={constructLegacyUrl(view)} />
           </Route>  
         )) }

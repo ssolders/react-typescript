@@ -20,9 +20,11 @@ interface IProps {
 
 const HeaderMenuItem: FC<any> = (props: IProps) => {
   let __history = useHistory()
-  const handleRouteChange = (id: string) => {
-    props.clickHandler(id)
-    return __history.push(`/${id}`)
+
+  // we use the same route chnage handler for dropdown items as well
+  const handleRouteChange = (option: IMenuItem) => {
+    props.clickHandler(option.id)
+    return __history.push(`/${option.id}`)
   }
 
   const { id, name, itemClasses, active, subMenuItems } = props
@@ -43,7 +45,7 @@ const HeaderMenuItem: FC<any> = (props: IProps) => {
     return (
       <a
         href='#'
-        onClick={() => handleRouteChange(id)}
+        onClick={() => handleRouteChange({ id, label: name })}
         className={`${activeClasses} ${itemClasses} text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium`}>
           { name }
       </a>

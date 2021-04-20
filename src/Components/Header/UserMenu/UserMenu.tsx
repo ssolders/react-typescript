@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { useHistory } from "react-router-dom"
-import { signOut } from './../../../Service/Login'
+import { signOut } from '../../../Service/User'
 import Dropdown from './../../Form/Dropdown/Dropdown'
 import './UserMenu.scss'
 

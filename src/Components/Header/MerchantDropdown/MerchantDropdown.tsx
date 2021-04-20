@@ -27,7 +27,6 @@ const MerchantDropdown: FC<any> = (props: IProps) => {
 
   /* Set selected merchantId */
   if (!props.selectedMerchant) {
-    debugger
     props.handleSetMerchant(props.merchants[0])
   }
 

@@ -29,7 +29,7 @@ function useOutsideAlerter(ref, callback) {
     }
     // Bind the event listener
     document.addEventListener("mousedown", handleClickOutside);
-    // window.addEventListener('blur', () => handleClickOutside(false))
+    window.addEventListener('blur', () => handleClickOutside(false))
     return () => {
       // Unbind the event listener on clean up
       document.removeEventListener("mousedown", handleClickOutside);
