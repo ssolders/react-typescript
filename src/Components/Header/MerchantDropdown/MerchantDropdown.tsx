@@ -22,7 +22,6 @@ interface IProps {
 }
 
 const MerchantDropdown: FC<any> = (props: IProps) => {
-  // const [selectedMerchant, setSelectedMerchant] = useState(props.merchants[0]);
   const [searchValue, setSearchValue] = useState('');
   const [filteredMerchants, setFilteredMerchants] = useState(props.merchants);
 

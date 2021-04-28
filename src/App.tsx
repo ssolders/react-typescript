@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import Header from './Components/Header/Header'
 import Routes from './Routes'
 import {
@@ -42,6 +42,12 @@ const App: FC<any> = () => {
     setSelectedMid(merchant)
     setMetaData(await getMetaData(merchant.value))
   }
+
+  useEffect(() => {
+    if (typeof authenticated === 'boolean') {
+      debugger
+    }
+  }, [authenticated])
 
   return (
     <Router history={'hashHistory'}>

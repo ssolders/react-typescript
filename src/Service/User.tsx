@@ -48,6 +48,7 @@ export const getMetaData = async (merchantId?: string): Promise<IMetaDataRespons
         if (authenticate) {
           const oAuthPath = authenticate.split('authorization_uri="')[1].replace(/['"]+/g, '') // split to get the path, and strip away trailing comma
           window.location.href = `/${oAuthPath}`
+          return
         }
         return null
       } else {

@@ -10,7 +10,7 @@ interface IComboboxProps {
 const ComboboxItem: FC<any> = (props: IComboboxProps) => {
   const { option, onSelect, selected } = props
   const { label, value, className } = option
-  const activeClasses = selected ? 'bg-green-400' : ''
+  let activeClasses = selected ? 'bg-green-400' : ''
   return (
     <a
       id={selected ? 'active-menu-item' : value}
@@ -19,7 +19,7 @@ const ComboboxItem: FC<any> = (props: IComboboxProps) => {
       className={`
         ${className}
         ${activeClasses}
-        text-left flex inline-block items-start px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900`
+        comboxbox-item text-left flex inline-block items-start px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900`
       }
       role='menuitem'>
       {label}

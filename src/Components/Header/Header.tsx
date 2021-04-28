@@ -18,11 +18,7 @@ interface IProps {
 
 const Header: FC<any> = (props: IProps) => {
   let history = useHistory()
-
-  const [activePath, setActivePath] = useState(
-    window.location.pathname.replace('/', '') // initial loaded path
-  );
-
+  const [activePath, setActivePath] = useState(window.location.pathname.replace('/', ''));
   const [menuOpen, setMenuOpen] = useState(false)
 
   const routeChangeHandler = (route) => {

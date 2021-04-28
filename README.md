@@ -29,6 +29,10 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### Run local PIQ Legacy BO
+
+Start up the PaymentIQ-Backoffice project and configure it to use port localhost:3337 and target PaymentIQ Test (config.js / config-local.js). Make sure you use a secure Bambora/Ingenico VPN connection.
+
 ### `yarn eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
