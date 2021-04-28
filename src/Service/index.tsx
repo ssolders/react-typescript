@@ -1,6 +1,7 @@
 const baseUrl = 'http://0.0.0.0:3000'
 export const constructApiUrl = (endpoint: string) => {
-  return `${baseUrl}/paymentiq/${endpoint}`
+  // return `${baseUrl}/paymentiq/${endpoint}`
+  return `/paymentiq/${endpoint}`
 }
 
 export const formPost = async (url: string, body = {}, headers = {}) => {

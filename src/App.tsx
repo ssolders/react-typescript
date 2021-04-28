@@ -39,9 +39,8 @@ const App: FC<any> = () => {
 
   const handleSetMerchant = async (merchant: IMerchantDropdownItem) => {
     localStorage.setItem('piq-bo-selected-mid', JSON.stringify(merchant))
-    setMetaData(await getMetaData(merchant.value))
     setSelectedMid(merchant)
-    
+    setMetaData(await getMetaData(merchant.value))
   }
 
   return (

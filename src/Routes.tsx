@@ -38,7 +38,8 @@ const Routes: FC<any> = (props: IProps) => {
   }
 
   const constructLegacyUrl = (view: Iview): string => {
-    const backofficeBaseUrl= 'http://0.0.0.0:11337/'
+    // const backofficeBaseUrl = 'http://test-bo.paymentiq.io:11337'
+    const backofficeBaseUrl= `http://127.0.0.1:3337/`
     return `${backofficeBaseUrl}${view.legacyRoute}`
   }
 

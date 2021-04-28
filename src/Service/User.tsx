@@ -44,9 +44,14 @@ export const getMetaData = async (merchantId?: string): Promise<IMetaDataRespons
     const urlParams = merchantId ? `/${merchantId}` : ''
     return await get(constructApiUrl(`/backoffice/api/metadata${urlParams}`)).then(function(response) {
       if (response.status === 401) {
+        const authenticate: string | null = response.headers.get('www-authenticate')
+        if (authenticate) {
+          const oAuthPath = authenticate.split('authorization_uri="')[1].replace(/['"]+/g, '') // split to get the path, and strip away trailing comma
+          window.location.href = `/${oAuthPath}`
+        }
         return null
       } else {
-        return response.json();
+        return response.json()
       }
     }).then(function(data) {
       return data

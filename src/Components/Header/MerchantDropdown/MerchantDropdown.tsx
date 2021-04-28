@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
 import Combobox from './../../Form/Combobox/Combobox'
+import { notifyLegacyBo } from '../../../utils/legacyBoApi'
 import './MerchantDropdown.scss'
 
 export interface IMerchantDropdownItem {
@@ -43,6 +44,7 @@ const MerchantDropdown: FC<any> = (props: IProps) => {
     props.handleSetMerchant(merchant)
     setSearchValue('')
     setFilteredMerchants(props.merchants)
+    notifyLegacyBo(merchant.value)
   }
 
   if (props.selectedMerchant === null) return null
