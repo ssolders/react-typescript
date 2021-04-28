@@ -27,7 +27,6 @@ const Combobox: FC<any> = (props: IComboboxProps) => {
   const { options, outerClasses, outerDropdownClasses, selected, search, searchValue, onInput, onSelect, scrollToSelected } = props
   const [comboboxOpen, setComboxboxOpen] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
-  const [focusedValue, setFocusedValue] = useState(document.getElementById('#active-menu-item'));
   const handleToggleShowCombobox = (show): void => {
     setComboxboxOpen(show)
     setShowSearch(show)
@@ -39,14 +38,12 @@ const Combobox: FC<any> = (props: IComboboxProps) => {
   // Scroll to selected mid when opening the combobox
   useEffect(() => {
     if (showSearch && scrollToSelected) {
-      setTimeout(() => handleScrollToTarget(optionsWrapperRef), 10)
+      setTimeout(() => handleScrollToSelected(optionsWrapperRef), 10)
     }
   }, [showSearch, scrollToSelected])
 
   // Set up event listnener for clicking escape (to close the combobox)
   useEffect(() => {
-    setFocusedValue(document.getElementById('#active-menu-item'))
-
     const handleKeyUp = (event: KeyboardEvent) => {
       switch (event.key) {
         case 'Escape':
@@ -60,36 +57,47 @@ const Combobox: FC<any> = (props: IComboboxProps) => {
           break
         case 'ArrowUp':
         case 'ArrowDown':
-          const selected: any = document.querySelector('.focused-menu-item')
+          const selected: any = document.querySelector('.focused-menu-item') || document.getElementById('active-menu-item')
+          
           const first = document.querySelector('.comboxbox-item')
           const last = document.querySelectorAll('.comboxbox-item')[document.querySelectorAll('.comboxbox-item').length-1]
-          || document.getElementById('active-menu-item')
+
+          const setFocusClasses = (domNode) => {
+            domNode?.classList.add('focused-menu-item', 'bg-gray-200')
+            
+            handleScrollToTarget(optionsWrapperRef, domNode)
+          }
+          const removeFocusClasses = (domNode) => {
+            domNode?.classList.remove('focused-menu-item', 'bg-gray-200')
+          }
           
           if (selected === null) {
+            
             if (event.key === 'ArrowUp') {
-              last.classList.add('focused-menu-item', 'bg-red-500')
+              setFocusClasses(last)
             } else if (event.key === 'ArrowDown') {
-              first?.classList.add('focused-menu-item', 'bg-red-500')
+              setFocusClasses(first)
             }
             return
           }
 
-          selected.classList.remove('focused-menu-item', 'bg-red-500')
+          removeFocusClasses(selected)
+          
           if (event.key === 'ArrowUp') {
             const previous = selected?.previousElementSibling
             if (previous) {
-              previous.classList.add('focused-menu-item', 'bg-red-500')
+              setFocusClasses(previous)
             } else {
               // no previous exists -> go to the last in the list
-              last.classList.add('focused-menu-item', 'bg-red-500')
+              setFocusClasses(last)
             }
           } else if (event.key === 'ArrowDown') {
             const next = selected?.nextElementSibling
             if (next) {
-              next.classList.add('focused-menu-item', 'bg-red-500')
+              setFocusClasses(next)
             } else {
               // no next exists -> go to the first in the list
-              first?.classList.add('focused-menu-item', 'bg-red-500')
+              setFocusClasses(first)
             }
             
           }
@@ -174,12 +182,26 @@ const ComboboxDefault = (props: IComboboxDefaultProps) => {
   )
 }
 
-function handleScrollToTarget (ref  ) {
+function handleScrollToSelected (ref) {
   const selected: HTMLElement | null = document.getElementById('active-menu-item')
   if (selected) {
     const container: any = ref.current
     if (container) {
       container.scrollTop = selected.offsetTop - 150
+    }
+  }
+}
+
+// todo make these offset values read from variables
+function handleScrollToTarget (ref, domNode) {
+  if (domNode) {
+    const container: any = ref.current
+    const scrollDiff = (domNode.offsetTop - 150) - container.scrollTop
+    console.log(scrollDiff)
+    if (scrollDiff > 200) {
+      container.scrollTop = domNode.offsetTop - 330
+    } else if (scrollDiff < -150) {
+      container.scrollTop = domNode.offsetTop + -20
     }
   }
 }

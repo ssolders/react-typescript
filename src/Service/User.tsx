@@ -81,7 +81,11 @@ export const signIn = async (payload: ISigninPayload): Promise<ISignInResponse |
 
 export const signOut = async (): Promise<boolean> => {
   try {
-    const data = await post(constructApiUrl('logout'))
+    const data = await post(constructApiUrl('logout')).then((response) => {
+      return response.json()
+    }).then((data) => {
+      console.log(data)
+    })
     return true
   } catch (error) {
     console.error(error)

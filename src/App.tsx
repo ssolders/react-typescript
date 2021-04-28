@@ -18,19 +18,23 @@ const App: FC<any> = () => {
     }
   }
 
-  const getInitAuthStatus = async () => {
+  const getInitAuthStatus = async (): Promise<any> => {
     const data = await getMetaData(selectedMid.value)
     if (data) {
-      return localStorage.getItem('piq-bo-authenticated') === 'true'
+      console.log('INIT AUTH: ', true)
+      localStorage.setItem('piq-bo-authenticated', 'true')
+      setAuthenticated(true)
     } else {
       handleLoginStatusChange(false)
-      return false
+      console.log('INIT AUTH: ', false)
     }
   }
 
   const [selectedMid, setSelectedMid] = useState(getInitMerchant())
-  const [authenticated, setAuthenticated] = useState(getInitAuthStatus())
+  const [authenticated, setAuthenticated] = useState(false)
   const [metaData, setMetaData] = useState(null)
+
+  getInitAuthStatus()
 
   const handleLoginStatusChange = (authenticated) => {
     localStorage.setItem('piq-bo-authenticated', authenticated)
@@ -45,7 +49,7 @@ const App: FC<any> = () => {
 
   useEffect(() => {
     if (typeof authenticated === 'boolean') {
-      debugger
+      
     }
   }, [authenticated])
 

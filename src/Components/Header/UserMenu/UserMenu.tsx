@@ -22,11 +22,9 @@ const UserMenu: FC<any> = (props: IProps) => {
   }
 
   const handleSignout = async () => {
-    const signedOut = await signOut()
-    if (signedOut) {
-      props.handleSignin(false)
-      history.push('/login')
-    }
+    await signOut()
+    props.handleSignin(false)
+    history.push('/login')
   }
 
   const UserIcon = () => (

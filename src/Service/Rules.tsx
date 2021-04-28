@@ -11,7 +11,6 @@ interface IPmRulesSummaryResponse {
 export const getPmRules = async (merchantId: string): Promise<IPmRulesResponse | null> => {
   try {
     const data = await get(constructApiUrl(`backoffice/api/decisiontable/T12/summary?merchantId=${merchantId}`))
-    debugger
     return null
   } catch (error) {
     console.error(error)

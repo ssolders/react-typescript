@@ -62,7 +62,7 @@ const Routes: FC<any> = (props: IProps) => {
       <Switch>
         
         <Route exact path="/login">
-          <Login handleSignin={props.handleSignin} />
+          <Login authenticated={props.authenticated} handleSignin={props.handleSignin} />
         </Route>
         
         <Route exact path="/rules/payment-methods">
